@@ -2,8 +2,6 @@ package ahgpoug.controllers;
 
 import ahgpoug.Main;
 import ahgpoug.objects.Task;
-import ahgpoug.util.DbxHelper;
-import ahgpoug.util.MaskField;
 import ahgpoug.util.MySQLhelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,22 +11,13 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
 
 public class SingleTaskController {
     @FXML
