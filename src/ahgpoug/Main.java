@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class Main extends Application {
             primaryStage.setTitle("qrReader");
             primaryStage.setScene(new Scene(root));
             primaryStage.setResizable(false);
+            primaryStage.getIcons().add(new Image("file:resources/images/icon.png"));
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();

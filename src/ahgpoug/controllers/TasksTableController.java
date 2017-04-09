@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -145,6 +146,8 @@ public class TasksTableController {
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
             dialogStage.setResizable(false);
+            dialogStage.getIcons().add(new Image("file:resources/images/icon.png"));
+
 
             SingleTaskController controller = loader.getController();
             controller.setDialogStage(dialogStage);
