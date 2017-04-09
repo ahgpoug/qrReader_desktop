@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -16,9 +17,18 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class SingleTaskController {
     @FXML
@@ -29,7 +39,7 @@ public class SingleTaskController {
     @FXML
     private TextField groupNameField;
     @FXML
-    private MaskField dateField;
+    private DatePicker dateField;
 
     private Stage dialogStage;
     private Task task;
@@ -41,16 +51,40 @@ public class SingleTaskController {
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
+
+        dateField.setConverter(new StringConverter<LocalDate>()
+        {
+            private DateTimeFormatter dateTimeFormatter= DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            @Override
+            public String toString(LocalDate localDate)
+            {
+                if(localDate==null)
+                    return "";
+                return dateTimeFormatter.format(localDate);
+            }
+
+            @Override
+            public LocalDate fromString(String dateString)
+            {
+                if(dateString==null || dateString.trim().isEmpty())
+                {
+                    return null;
+                }
+                return LocalDate.parse(dateString,dateTimeFormatter);
+            }
+        });
     }
 
     public void setData(Task task) {
         this.task = task;
-
         if (task != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
             taskNameField.setText(task.getTaskName().getValue());
             groupNameField.setText(task.getGroupName().getValue());
-            dateField.setText(task.getExpDate().getValue());
             pdfLabel.setText(task.getPDFstate().getValue());
+            dateField.setValue(LocalDate.parse(task.getExpDate().getValue(), formatter));
         } else {
             pdfLabel.setText("✘");
         }
@@ -64,9 +98,9 @@ public class SingleTaskController {
     private void handleOk() {
         if (isInputValid()) {
             if (task == null)
-                MySQLhelper.addNewTask(taskNameField.getText(), groupNameField.getText(), dateField.getText());
+                MySQLhelper.addNewTask(taskNameField.getText(), groupNameField.getText(), dateField.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
             else
-                MySQLhelper.editExistingTask(task, taskNameField.getText(), groupNameField.getText(), dateField.getText());
+                MySQLhelper.editExistingTask(task, taskNameField.getText(), groupNameField.getText(), dateField.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
             okClicked = true;
             dialogStage.close();
@@ -93,7 +127,7 @@ public class SingleTaskController {
             result = false;
         }
 
-        if (dateField.getText() == null || dateField.getText().length() == 0) {
+        if (dateField.getValue() == null || dateField.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).length() == 0) {
             result = false;
         }
 
