@@ -15,6 +15,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -43,11 +44,16 @@ public class TasksTableController {
     private Label dateLabel;
     @FXML
     private Label pdfLabel;
+    @FXML
+    private Label infoLabel;
+
+    @FXML
+    private GridPane infoPane;
 
     @FXML
     private void initialize() {
         updateTable(-1);
-
+        
         taskNameColumn.setCellValueFactory(cellData -> cellData.getValue().getTaskName());
         groupNameColumn.setCellValueFactory(cellData -> cellData.getValue().getGroupName());
         dateColumn.setCellValueFactory(cellData -> cellData.getValue().getExpDate());
@@ -59,15 +65,16 @@ public class TasksTableController {
 
     private void showData(Task task){
         if (task != null) {
+            infoPane.setVisible(true);
+            infoLabel.setVisible(true);
+
             taskNameLabel.setText(task.getTaskName().getValue());
             groupNameLabel.setText(task.getGroupName().getValue());
             dateLabel.setText(task.getExpDate().getValue());
             pdfLabel.setText(task.getPDFstate().getValue());
         } else {
-            taskNameLabel.setText("");
-            groupNameLabel.setText("");
-            dateLabel.setText("");
-            pdfLabel.setText("");
+            infoPane.setVisible(false);
+            infoLabel.setVisible(false);
         }
     }
 
@@ -82,10 +89,16 @@ public class TasksTableController {
             ObservableList<Task> list = getAllTasks.getValue();
             if (list.size() > 0) {
                 tasksTable.setItems(list);
-                if (index != -1)
+                if (index != -1) {
                     tasksTable.getSelectionModel().select(index);
-            }else
+                    infoPane.setVisible(true);
+                    infoLabel.setVisible(true);
+                }
+            } else {
                 tasksTable.setPlaceholder(new Label("Данных нет"));
+                infoPane.setVisible(false);
+                infoLabel.setVisible(false);
+            }
         });
     }
 
