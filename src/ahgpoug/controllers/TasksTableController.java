@@ -10,9 +10,7 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -23,6 +21,7 @@ import org.controlsfx.dialog.ProgressDialog;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 public class TasksTableController {
     @FXML
@@ -88,7 +87,6 @@ public class TasksTableController {
         getAllTasks.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, e -> {
             ObservableList<Task> list = getAllTasks.getValue();
             if (list != null && list.size() > 0) {
-                System.out.println(list.size());
                 tasksTable.setItems(list);
                 if (index != -1) {
                     tasksTable.getSelectionModel().select(index);
@@ -111,9 +109,18 @@ public class TasksTableController {
     private void handleDeleteTask() {
         int index = tasksTable.getSelectionModel().getSelectedIndex();
         if (index >= 0) {
-            MySqlHelper.removeTask(tasksTable.getSelectionModel().getSelectedItem());
-            tasksTable.getItems().remove(index);
-            updateTable(tasksTable.getSelectionModel().getSelectedIndex());
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Удаление данных");
+            alert.setHeaderText("Удаление всех данных по заданию");
+            alert.setContentText("Вы уверены?");
+            alert.initOwner(Main.getStage());
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                executeDeleteTask(tasksTable.getSelectionModel().getSelectedItem());
+            } else {
+                alert.close();
+            }
         }
     }
 
@@ -150,6 +157,13 @@ public class TasksTableController {
     }
 
     @FXML
+    private void handleFolderShow() {
+        if (tasksTable.getSelectionModel().getSelectedIndex() >= 0) {
+            executeShowFolder(tasksTable.getSelectionModel().getSelectedItem());
+        }
+    }
+
+    @FXML
     private void handlePDFshow() {
         if (tasksTable.getSelectionModel().getSelectedIndex() >= 0) {
             Task task = tasksTable.getSelectionModel().getSelectedItem();
@@ -173,6 +187,30 @@ public class TasksTableController {
             showQrCodeDialog(tasksTable.getSelectionModel().getSelectedItem());
     }
 
+    private void executeDeleteTask(Task task){
+        javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
+            @Override public Boolean call() {
+                DbxHelper.removeFile(task);
+                DbxHelper.removeFolder(task);
+                MySqlHelper.removeTask(task);
+                return null;
+            }
+        };
+
+        task1.setOnSucceeded((e) -> {
+            tasksTable.getItems().remove(tasksTable.getSelectionModel().getSelectedIndex());
+            updateTable(tasksTable.getSelectionModel().getSelectedIndex());
+        });
+
+        ProgressDialog progDiag = new ProgressDialog(task1);
+        progDiag.setTitle("Загрузка");
+        progDiag.initOwner(Main.getStage());
+        progDiag.setHeaderText("Удаление всех данных...");
+        progDiag.initModality(Modality.WINDOW_MODAL);
+
+        new Thread(task1).start();
+    }
+
     private void executeUploadFile(File file, Task task){
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
@@ -180,6 +218,10 @@ public class TasksTableController {
                 return null;
             }
         };
+
+        task1.setOnSucceeded((e) -> {
+            updateTable(tasksTable.getSelectionModel().getSelectedIndex());
+        });
 
         ProgressDialog progDiag = new ProgressDialog(task1);
         progDiag.setTitle("Загрузка");
@@ -202,6 +244,23 @@ public class TasksTableController {
         progDiag.setTitle("Загрузка");
         progDiag.initOwner(Main.getStage());
         progDiag.setHeaderText("Получение ссылки на файл...");
+        progDiag.initModality(Modality.WINDOW_MODAL);
+
+        new Thread(task1).start();
+    }
+
+    private void executeShowFolder(Task task){
+        javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
+            @Override public Boolean call() {
+                DbxHelper.showFolder(task);
+                return null;
+            }
+        };
+
+        ProgressDialog progDiag = new ProgressDialog(task1);
+        progDiag.setTitle("Загрузка");
+        progDiag.initOwner(Main.getStage());
+        progDiag.setHeaderText("Получение ссылки на каталог...");
         progDiag.initModality(Modality.WINDOW_MODAL);
 
         new Thread(task1).start();

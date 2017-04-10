@@ -44,6 +44,18 @@ public class DbxHelper {
         }
     }
 
+    public static void createFolders(String groupName, String taskName){
+        DbxRequestConfig config = new DbxRequestConfig("dropbox/desktopClient1");
+        DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
+
+        try {
+            String path = String.format("/%s/%s", groupName, taskName);
+            client.files().createFolder(path);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     public static void removeFile(Task task){
         DbxRequestConfig config = new DbxRequestConfig("dropbox/desktopClient1");
         DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
@@ -56,7 +68,28 @@ public class DbxHelper {
                     break;
                 }
             }
-        } catch (DbxException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void removeFolder(Task task){
+        DbxRequestConfig config = new DbxRequestConfig("dropbox/desktopClient1");
+        DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
+
+        try {
+            List<Metadata> result = client.files().listFolder(String.format("/%s/", task.getGroupName().getValue())).getEntries();
+            for (Metadata entry : result) {
+                if (entry.getName().equals(task.getTaskName().getValue())) {
+                    client.files().delete(entry.getPathDisplay());
+                    break;
+                }
+            }
+
+            result = client.files().listFolder(String.format("/%s/", task.getGroupName().getValue())).getEntries();
+            if (result.size() == 0)
+                client.files().delete(String.format("/%s", task.getGroupName().getValue()));
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -75,7 +108,28 @@ public class DbxHelper {
                 url = client.sharing().createSharedLinkWithSettings(path).getUrl();
             else
                 url = links.get(0).getUrl();
-        } catch (DbxException e){
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        openWebpage(URI.create(url));
+    }
+
+    public static void showFolder(Task task){
+        DbxRequestConfig config = new DbxRequestConfig("dropbox/desktopClient1");
+        DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
+        String url = "http://ahgpoug.xyz/error";
+
+        try {
+            String path = String.format("/%s/%s", task.getGroupName().getValue(), task.getTaskName().getValue());
+
+            List<SharedLinkMetadata> links = client.sharing().listSharedLinksBuilder().withPath(path).start().getLinks();
+
+            if (links.size() == 0)
+                url = client.sharing().createSharedLinkWithSettings(path).getUrl();
+            else
+                url = links.get(0).getUrl();
+        } catch (Exception e){
             e.printStackTrace();
         }
 

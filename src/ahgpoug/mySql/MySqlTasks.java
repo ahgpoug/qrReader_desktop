@@ -1,5 +1,6 @@
 package ahgpoug.mySql;
 
+import ahgpoug.dbx.DbxHelper;
 import ahgpoug.objects.Task;
 import javafx.collections.ObservableList;
 
@@ -29,6 +30,7 @@ public final class MySqlTasks {
         protected Boolean call() throws Exception
         {
             MySqlHelper.addNewTask(taskName, groupName, expDate);
+            DbxHelper.createFolders(groupName, taskName);
             return true;
         }
     }

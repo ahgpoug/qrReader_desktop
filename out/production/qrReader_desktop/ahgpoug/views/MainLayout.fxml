@@ -90,9 +90,10 @@
               <SplitMenuButton mnemonicParsing="false" text="Еще...">
                 <items>
                   <MenuItem mnemonicParsing="false" onAction="#handleQrShow" text="Получить QR код" />
-                  <MenuItem mnemonicParsing="false" onAction="#handlePDFupload" text="Загрузить задание" />
-                  <MenuItem mnemonicParsing="false" onAction="#handlePDFshow" text="Просмотреть задание" />
-                  <MenuItem mnemonicParsing="false" onAction="#handlePDFremove" text="Удалить задание" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleFolderShow" text="Просмотреть каталог задания" />
+                  <MenuItem mnemonicParsing="false" onAction="#handlePDFupload" text="Загрузить текст задания" />
+                  <MenuItem mnemonicParsing="false" onAction="#handlePDFshow" text="Просмотреть текст задания" />
+                  <MenuItem mnemonicParsing="false" onAction="#handlePDFremove" text="Удалить текст задания" />
                 </items>
               </SplitMenuButton>
               <Button layoutX="167.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleEditTask" text="Изменить" />
