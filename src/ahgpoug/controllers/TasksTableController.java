@@ -4,6 +4,7 @@ import ahgpoug.Main;
 import ahgpoug.objects.Task;
 import ahgpoug.util.DbxHelper;
 import ahgpoug.util.MySQLhelper;
+import ahgpoug.util.ProgressForm;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -92,7 +93,6 @@ public class TasksTableController {
             if (okClicked) {
                 tasksTable.setItems(MySQLhelper.getAllTasks());
             }
-
         }
     }
 
@@ -106,9 +106,7 @@ public class TasksTableController {
             chooser.getExtensionFilters().add(extFilter);
             chooser.setTitle("Выбрать файл");
             File file = chooser.showOpenDialog(new Stage());
-            DbxHelper.uploadFile(file, task);
-            tasksTable.setItems(MySQLhelper.getAllTasks());
-            tasksTable.getSelectionModel().select(selectedIndex);
+            executeUploadTask(file, task);
         }
     }
 
@@ -118,7 +116,7 @@ public class TasksTableController {
         if (selectedIndex >= 0) {
             Task task = tasksTable.getItems().get(selectedIndex);
             if (task.isHasPDF())
-                DbxHelper.showFile(task);
+                executeShowTask(task);
         }
     }
 
@@ -127,10 +125,70 @@ public class TasksTableController {
         int selectedIndex = tasksTable.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
             Task task = tasksTable.getItems().get(selectedIndex);
-            DbxHelper.removeFile(task);
+            if (task.isHasPDF())
+                executeRemoveTask(task);
+        }
+    }
+
+    private void executeUploadTask(File file, Task task){
+        ProgressForm pForm = new ProgressForm();
+
+        javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
+            @Override public Boolean call() {
+                DbxHelper.uploadFile(file, task);
+                return null;
+            }
+        };
+        task1.setOnRunning((e) -> {
+            pForm.activateProgressBar(task1);
+        });
+        task1.setOnSucceeded((e) -> {
+            int selectedIndex = tasksTable.getSelectionModel().getSelectedIndex();
             tasksTable.setItems(MySQLhelper.getAllTasks());
             tasksTable.getSelectionModel().select(selectedIndex);
-        }
+            pForm.getDialogStage().close();
+        });
+        new Thread(task1).start();
+    }
+
+    private void executeShowTask(Task task){
+        ProgressForm pForm = new ProgressForm();
+
+        javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
+            @Override public Boolean call() {
+                DbxHelper.showFile(task);
+                return null;
+            }
+        };
+        task1.setOnRunning((e) -> {
+            pForm.activateProgressBar(task1);
+        });
+        task1.setOnSucceeded((e) -> {
+            pForm.getDialogStage().close();
+        });
+        new Thread(task1).start();
+    }
+
+    private void executeRemoveTask(Task task){
+        ProgressForm pForm = new ProgressForm();
+
+        javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
+            @Override public Boolean call() {
+                DbxHelper.removeFile(task);
+
+                return null;
+            }
+        };
+        task1.setOnRunning((e) -> {
+            pForm.activateProgressBar(task1);
+        });
+        task1.setOnSucceeded((e) -> {
+            int selectedIndex = tasksTable.getSelectionModel().getSelectedIndex();
+            tasksTable.setItems(MySQLhelper.getAllTasks());
+            tasksTable.getSelectionModel().select(selectedIndex);
+            pForm.getDialogStage().close();
+        });
+        new Thread(task1).start();
     }
 
     private boolean showTaskDialog(Task task) {

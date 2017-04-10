@@ -37,6 +37,7 @@ public class DbxHelper {
 
         try (InputStream in = new FileInputStream(file)) {
             String path = String.format("/Задания/%s.pdf", task.getId().getValue());
+            removeFile(task);
             client.files().uploadBuilder(path).uploadAndFinish(in);
         } catch (Exception e){
             e.printStackTrace();
