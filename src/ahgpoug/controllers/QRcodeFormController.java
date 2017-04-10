@@ -21,7 +21,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Hashtable;
 
-public class QRcodeFormController {
+public class QrCodeFormController {
     @FXML
     private ImageView qrCode;
 

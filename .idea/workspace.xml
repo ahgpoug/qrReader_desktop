@@ -5,19 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ahgpoug/mySql/MySqlTasks.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ahgpoug/controllers/QRcodeFormController.java" afterPath="$PROJECT_DIR$/src/ahgpoug/controllers/QrCodeFormController.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ahgpoug/util/DbxHelper.java" afterPath="$PROJECT_DIR$/src/ahgpoug/dbx/DbxHelper.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ahgpoug/util/MySQLhelper.java" afterPath="$PROJECT_DIR$/src/ahgpoug/mySql/MySqlHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/qrReader_desktop/ahgpoug/views/EditTaskLayout.fxml" afterPath="$PROJECT_DIR$/out/production/qrReader_desktop/ahgpoug/views/EditTaskLayout.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/qrReader_desktop/ahgpoug/views/MainLayout.fxml" afterPath="$PROJECT_DIR$/out/production/qrReader_desktop/ahgpoug/views/MainLayout.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/qrReader_desktop/ahgpoug/views/QRcodeLayout.fxml" afterPath="$PROJECT_DIR$/out/production/qrReader_desktop/ahgpoug/views/QRcodeLayout.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ahgpoug/controllers/SingleTaskController.java" afterPath="$PROJECT_DIR$/src/ahgpoug/controllers/SingleTaskController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ahgpoug/controllers/TasksTableController.java" afterPath="$PROJECT_DIR$/src/ahgpoug/controllers/TasksTableController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ahgpoug/views/EditTaskLayout.fxml" afterPath="$PROJECT_DIR$/src/ahgpoug/views/EditTaskLayout.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ahgpoug/views/MainLayout.fxml" afterPath="$PROJECT_DIR$/src/ahgpoug/views/MainLayout.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ahgpoug/views/QRcodeLayout.fxml" afterPath="$PROJECT_DIR$/src/ahgpoug/views/QRcodeLayout.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ahgpoug/controllers/QRcodeFormController.java" afterPath="$PROJECT_DIR$/src/ahgpoug/controllers/QRcodeFormController.java" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -300,6 +288,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="util" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="qrReader_desktop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="qrReader_desktop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ahgpoug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="objects" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -871,11 +881,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34925000" />
+    <option name="totallyTimeSpent" value="34960000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -895,10 +905,10 @@
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1447167" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1447167" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296875" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18632813" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18632813" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924962" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
