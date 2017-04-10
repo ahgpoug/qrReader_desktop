@@ -88,11 +88,15 @@ public class TasksTableController {
         getAllTasks.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, e -> {
             ObservableList<Task> list = getAllTasks.getValue();
             if (list != null && list.size() > 0) {
+                System.out.println(list.size());
                 tasksTable.setItems(list);
                 if (index != -1) {
                     tasksTable.getSelectionModel().select(index);
                     infoPane.setVisible(true);
                     infoLabel.setVisible(true);
+                } else {
+                    infoPane.setVisible(false);
+                    infoLabel.setVisible(false);
                 }
             } else {
                 tasksTable.setPlaceholder(new Label("Данных нет"));
@@ -100,14 +104,16 @@ public class TasksTableController {
                 infoLabel.setVisible(false);
             }
         });
+
     }
 
     @FXML
     private void handleDeleteTask() {
-        int selectedIndex = tasksTable.getSelectionModel().getSelectedIndex();
-        if (selectedIndex >= 0) {
-            MySqlHelper.removeTask(tasksTable.getItems().get(selectedIndex));
-            tasksTable.getItems().remove(selectedIndex);
+        int index = tasksTable.getSelectionModel().getSelectedIndex();
+        if (index >= 0) {
+            MySqlHelper.removeTask(tasksTable.getSelectionModel().getSelectedItem());
+            tasksTable.getItems().remove(index);
+            updateTable(tasksTable.getSelectionModel().getSelectedIndex());
         }
     }
 
@@ -139,7 +145,7 @@ public class TasksTableController {
             chooser.getExtensionFilters().add(extFilter);
             chooser.setTitle("Выбрать файл");
             File file = chooser.showOpenDialog(new Stage());
-            executeUploadTask(file, task);
+            executeUploadFile(file, task);
         }
     }
 
@@ -148,7 +154,7 @@ public class TasksTableController {
         if (tasksTable.getSelectionModel().getSelectedIndex() >= 0) {
             Task task = tasksTable.getSelectionModel().getSelectedItem();
             if (task.isHasPDF())
-                executeShowTask(task);
+                executeShowFile(task);
         }
     }
 
@@ -157,7 +163,7 @@ public class TasksTableController {
         if (tasksTable.getSelectionModel().getSelectedIndex() >= 0) {
             Task task = tasksTable.getSelectionModel().getSelectedItem();
             if (task.isHasPDF())
-                executeRemoveTask(task);
+                executeRemoveFile(task);
         }
     }
 
@@ -167,16 +173,13 @@ public class TasksTableController {
             showQrCodeDialog(tasksTable.getSelectionModel().getSelectedItem());
     }
 
-    private void executeUploadTask(File file, Task task){
+    private void executeUploadFile(File file, Task task){
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
                 DbxHelper.uploadFile(file, task);
                 return null;
             }
         };
-        task1.setOnSucceeded((e) -> {
-            updateTable(tasksTable.getSelectionModel().getSelectedIndex());
-        });
 
         ProgressDialog progDiag = new ProgressDialog(task1);
         progDiag.setTitle("Загрузка");
@@ -187,7 +190,7 @@ public class TasksTableController {
         new Thread(task1).start();
     }
 
-    private void executeShowTask(Task task){
+    private void executeShowFile(Task task){
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
                 DbxHelper.showFile(task);
@@ -204,7 +207,7 @@ public class TasksTableController {
         new Thread(task1).start();
     }
 
-    private void executeRemoveTask(Task task){
+    private void executeRemoveFile(Task task){
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
                 DbxHelper.removeFile(task);
@@ -212,7 +215,7 @@ public class TasksTableController {
             }
         };
         task1.setOnSucceeded((e) -> {
-            updateTable(-1);
+            updateTable(tasksTable.getSelectionModel().getSelectedIndex());
         });
 
         ProgressDialog progDiag = new ProgressDialog(task1);

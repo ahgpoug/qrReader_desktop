@@ -23,10 +23,12 @@ public class MySqlHelper {
             ObservableList<Task> tasks = FXCollections.observableArrayList();
             String link = "http://www.ahgpoug.xyz/qrreader/getAllTasks.php";
 
-            HttpClient client = HttpClientBuilder.create().build();;
+            HttpClient client = HttpClientBuilder.create().build();
             HttpGet request = new HttpGet();
             request.setURI(new URI(link));
             HttpResponse response = client.execute(request);
+            if (response == null)
+                return null;
             BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 
             String line = "";

@@ -24,6 +24,7 @@ public final class MySqlTasks {
             this.groupName = groupName;
             this.expDate = expDate;
         }
+
         @Override
         protected Boolean call() throws Exception
         {
