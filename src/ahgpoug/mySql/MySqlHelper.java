@@ -14,7 +14,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static ahgpoug.dbx.DbxHelper.checkAllPDFs;
+import static ahgpoug.dbx.DbxHelper.PDF.checkAllPDFs;
 
 public class MySqlHelper {
     public static ObservableList<Task> getAllTasks()

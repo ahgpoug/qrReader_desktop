@@ -30,7 +30,7 @@ public final class MySqlTasks {
         protected Boolean call() throws Exception
         {
             MySqlHelper.addNewTask(taskName, groupName, expDate);
-            DbxHelper.createFolders(groupName, taskName);
+            DbxHelper.Folders.createFolders(groupName, taskName);
             return true;
         }
     }

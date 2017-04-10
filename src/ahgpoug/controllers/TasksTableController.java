@@ -190,8 +190,8 @@ public class TasksTableController {
     private void executeDeleteTask(Task task){
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
-                DbxHelper.removeFile(task);
-                DbxHelper.removeFolder(task);
+                DbxHelper.Files.removeFile(task);
+                DbxHelper.Folders.removeFolder(task);
                 MySqlHelper.removeTask(task);
                 return null;
             }
@@ -214,7 +214,7 @@ public class TasksTableController {
     private void executeUploadFile(File file, Task task){
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
-                DbxHelper.uploadFile(file, task);
+                DbxHelper.Files.uploadFile(file, task);
                 return null;
             }
         };
@@ -235,7 +235,7 @@ public class TasksTableController {
     private void executeShowFile(Task task){
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
-                DbxHelper.showFile(task);
+                DbxHelper.Files.showFile(task);
                 return null;
             }
         };
@@ -252,7 +252,7 @@ public class TasksTableController {
     private void executeShowFolder(Task task){
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
-                DbxHelper.showFolder(task);
+                DbxHelper.Folders.showFolder(task);
                 return null;
             }
         };
@@ -269,7 +269,7 @@ public class TasksTableController {
     private void executeRemoveFile(Task task){
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
-                DbxHelper.removeFile(task);
+                DbxHelper.Files.removeFile(task);
                 return null;
             }
         };
