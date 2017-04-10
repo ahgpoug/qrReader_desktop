@@ -48,7 +48,7 @@
             </GridPane>
           <HBox layoutX="215.0" layoutY="259.0" spacing="5.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
             <children>
-              <SplitMenuButton mnemonicParsing="false" text="PDF">
+              <SplitMenuButton mnemonicParsing="false" onAction="#handlePDFshow" text="PDF">
                 <items>
                   <MenuItem mnemonicParsing="false" onAction="#handlePDFupload" text="Загрузить" />
                   <MenuItem mnemonicParsing="false" onAction="#handlePDFshow" text="Просмотреть" />

@@ -4,7 +4,6 @@ import ahgpoug.Main;
 import ahgpoug.objects.Task;
 import ahgpoug.util.DbxHelper;
 import ahgpoug.util.MySQLhelper;
-import ahgpoug.util.ProgressForm;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,6 +15,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import org.controlsfx.dialog.ProgressDialog;
 
 import java.io.File;
 import java.io.IOException;
@@ -131,47 +132,45 @@ public class TasksTableController {
     }
 
     private void executeUploadTask(File file, Task task){
-        ProgressForm pForm = new ProgressForm();
-
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
                 DbxHelper.uploadFile(file, task);
                 return null;
             }
         };
-        task1.setOnRunning((e) -> {
-            pForm.activateProgressBar(task1);
-        });
         task1.setOnSucceeded((e) -> {
             int selectedIndex = tasksTable.getSelectionModel().getSelectedIndex();
             tasksTable.setItems(MySQLhelper.getAllTasks());
             tasksTable.getSelectionModel().select(selectedIndex);
-            pForm.getDialogStage().close();
         });
+
+        ProgressDialog progDiag = new ProgressDialog(task1);
+        progDiag.setTitle("Загрузка");
+        progDiag.initOwner(Main.getStage());
+        progDiag.setHeaderText("Загрузка файла на сервер...");
+        progDiag.initModality(Modality.WINDOW_MODAL);
+
         new Thread(task1).start();
     }
 
     private void executeShowTask(Task task){
-        ProgressForm pForm = new ProgressForm();
-
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
                 DbxHelper.showFile(task);
                 return null;
             }
         };
-        task1.setOnRunning((e) -> {
-            pForm.activateProgressBar(task1);
-        });
-        task1.setOnSucceeded((e) -> {
-            pForm.getDialogStage().close();
-        });
+
+        ProgressDialog progDiag = new ProgressDialog(task1);
+        progDiag.setTitle("Загрузка");
+        progDiag.initOwner(Main.getStage());
+        progDiag.setHeaderText("Получение ссылки на файл...");
+        progDiag.initModality(Modality.WINDOW_MODAL);
+
         new Thread(task1).start();
     }
 
     private void executeRemoveTask(Task task){
-        ProgressForm pForm = new ProgressForm();
-
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
                 DbxHelper.removeFile(task);
@@ -179,15 +178,18 @@ public class TasksTableController {
                 return null;
             }
         };
-        task1.setOnRunning((e) -> {
-            pForm.activateProgressBar(task1);
-        });
         task1.setOnSucceeded((e) -> {
             int selectedIndex = tasksTable.getSelectionModel().getSelectedIndex();
             tasksTable.setItems(MySQLhelper.getAllTasks());
             tasksTable.getSelectionModel().select(selectedIndex);
-            pForm.getDialogStage().close();
         });
+
+        ProgressDialog progDiag = new ProgressDialog(task1);
+        progDiag.setTitle("Загрузка");
+        progDiag.initOwner(Main.getStage());
+        progDiag.setHeaderText("Удаление файла...");
+        progDiag.initModality(Modality.WINDOW_MODAL);
+
         new Thread(task1).start();
     }
 
@@ -195,7 +197,7 @@ public class TasksTableController {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("views/EditTaskLayout.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
+            AnchorPane page = loader.load();
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle("qrReader");
