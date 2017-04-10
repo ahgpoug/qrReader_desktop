@@ -1,22 +1,17 @@
 package ahgpoug.controllers;
 
-import ahgpoug.Main;
 import ahgpoug.objects.Task;
-import ahgpoug.util.MySQLhelper;
+import ahgpoug.mySql.MySqlHelper;
+import ahgpoug.mySql.MySqlTasks;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -77,6 +72,7 @@ public class SingleTaskController {
             dateField.setValue(LocalDate.parse(task.getExpDate().getValue(), formatter));
         } else {
             pdfLabel.setText("✘");
+
         }
     }
 
@@ -87,13 +83,22 @@ public class SingleTaskController {
     @FXML
     private void handleOk() {
         if (isInputValid()) {
-            if (task == null)
-                MySQLhelper.addNewTask(taskNameField.getText(), groupNameField.getText(), dateField.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-            else
-                MySQLhelper.editExistingTask(task, taskNameField.getText(), groupNameField.getText(), dateField.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            if (task == null) {
+                MySqlTasks.AddNewTask addNewTask = new MySqlTasks().new AddNewTask(taskNameField.getText(), groupNameField.getText(), dateField.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                Thread th = new Thread(addNewTask);
+                th.start();
 
-            okClicked = true;
-            dialogStage.close();
+                addNewTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, e -> {
+                    if (addNewTask.getValue()) {
+                        okClicked = true;
+                        dialogStage.close();
+                    }
+                });
+            } else {
+                MySqlHelper.editExistingTask(task, taskNameField.getText(), groupNameField.getText(), dateField.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                okClicked = true;
+                dialogStage.close();
+            }
         }
     }
 
@@ -102,10 +107,6 @@ public class SingleTaskController {
         dialogStage.close();
     }
 
-    @FXML
-    private void handleQRshow() {
-        showQrCodeDialog(task);
-    }
 
     private boolean isInputValid(){
         boolean result = true;
@@ -130,29 +131,5 @@ public class SingleTaskController {
         }
 
         return result;
-    }
-
-    private void showQrCodeDialog(Task task) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("views/QRcodeLayout.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
-
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("QR code");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(Main.getStage());
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
-            dialogStage.getIcons().add(new Image("file:resources/images/icon.png"));
-
-            QRcodeFormController controller = loader.getController();
-            controller.setDialogStage(dialogStage);
-            controller.setData(task);
-
-            dialogStage.showAndWait();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

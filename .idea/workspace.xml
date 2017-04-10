@@ -5,10 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/ahgpoug/util/ProgressForm.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ahgpoug/mySql/MySqlTasks.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ahgpoug/controllers/QRcodeFormController.java" afterPath="$PROJECT_DIR$/src/ahgpoug/controllers/QrCodeFormController.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ahgpoug/util/DbxHelper.java" afterPath="$PROJECT_DIR$/src/ahgpoug/dbx/DbxHelper.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ahgpoug/util/MySQLhelper.java" afterPath="$PROJECT_DIR$/src/ahgpoug/mySql/MySqlHelper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/qrReader_desktop/ahgpoug/views/EditTaskLayout.fxml" afterPath="$PROJECT_DIR$/out/production/qrReader_desktop/ahgpoug/views/EditTaskLayout.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/qrReader_desktop/ahgpoug/views/MainLayout.fxml" afterPath="$PROJECT_DIR$/out/production/qrReader_desktop/ahgpoug/views/MainLayout.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/qrReader_desktop/ahgpoug/views/QRcodeLayout.fxml" afterPath="$PROJECT_DIR$/out/production/qrReader_desktop/ahgpoug/views/QRcodeLayout.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ahgpoug/controllers/SingleTaskController.java" afterPath="$PROJECT_DIR$/src/ahgpoug/controllers/SingleTaskController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ahgpoug/controllers/TasksTableController.java" afterPath="$PROJECT_DIR$/src/ahgpoug/controllers/TasksTableController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ahgpoug/views/EditTaskLayout.fxml" afterPath="$PROJECT_DIR$/src/ahgpoug/views/EditTaskLayout.fxml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ahgpoug/views/MainLayout.fxml" afterPath="$PROJECT_DIR$/src/ahgpoug/views/MainLayout.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ahgpoug/views/QRcodeLayout.fxml" afterPath="$PROJECT_DIR$/src/ahgpoug/views/QRcodeLayout.fxml" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -72,67 +81,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MainLayout.fxml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ahgpoug/views/MainLayout.fxml">
+      <file leaf-file-name="MySqlTasks.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ahgpoug/mySql/MySqlTasks.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="830">
-              <caret line="60" column="23" lean-forward="true" selection-start-line="60" selection-start-column="23" selection-end-line="60" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="JavaFX-Scene-Builder">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DbxHelper.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ahgpoug/util/DbxHelper.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="799">
-              <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="442">
+              <caret line="26" column="17" lean-forward="true" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ImageViewPane.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ahgpoug/util/ImageViewPane.java">
+      <file leaf-file-name="DbxHelper.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/ahgpoug/dbx/DbxHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="34" column="51" lean-forward="false" selection-start-line="34" selection-start-column="51" selection-end-line="34" selection-end-column="51" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MySQLhelper.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/ahgpoug/util/MySQLhelper.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="808">
-              <caret line="66" column="5" lean-forward="true" selection-start-line="66" selection-start-column="5" selection-end-line="66" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EditTaskLayout.fxml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ahgpoug/views/EditTaskLayout.fxml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="JavaFX-Scene-Builder">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="QRcodeFormController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ahgpoug/controllers/QRcodeFormController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="44" column="92" lean-forward="false" selection-start-line="44" selection-start-column="92" selection-end-line="44" selection-end-column="92" />
+            <state relative-caret-position="85">
+              <caret line="20" column="102" lean-forward="false" selection-start-line="20" selection-start-column="102" selection-end-line="20" selection-end-column="102" />
               <folding />
             </state>
           </provider>
@@ -141,25 +106,12 @@
       <file leaf-file-name="TasksTableController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ahgpoug/controllers/TasksTableController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="621">
-              <caret line="144" column="11" lean-forward="true" selection-start-line="134" selection-start-column="8" selection-end-line="144" selection-end-column="11" />
+            <state relative-caret-position="781">
+              <caret line="196" column="43" lean-forward="true" selection-start-line="196" selection-start-column="43" selection-end-line="196" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#4465#4653#0" expanded="true" />
-                <element signature="e#4652#4653#0" expanded="true" />
-                <element signature="e#5313#5493#0" expanded="true" />
-                <element signature="e#5492#5493#0" expanded="true" />
-                <element signature="e#5896#6079#0" expanded="true" />
-                <element signature="e#6078#6079#0" expanded="true" />
               </folding>
             </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="icon.png" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/images/icon.png">
-          <provider selected="true" editor-type-id="images">
-            <state />
           </provider>
         </entry>
       </file>
@@ -184,6 +136,11 @@
       <find>task.get</find>
       <find>dialog</find>
       <find>dialo</find>
+      <find>setItems</find>
+      <find>getSelectedIndex</find>
+      <find>.select</find>
+      <find>qr</find>
+      <find>SQL</find>
     </findStrings>
   </component>
   <component name="FindManager">
@@ -216,19 +173,24 @@
         <option value="$PROJECT_DIR$/src/ahgpoug/util/ImageViewPane.java" />
         <option value="$PROJECT_DIR$/src/ahgpoug/controllers/QRcodeFormController.java" />
         <option value="$PROJECT_DIR$/src/ahgpoug/views/PDFselectorLayout.fxml" />
-        <option value="$PROJECT_DIR$/src/ahgpoug/views/EditTaskLayout.fxml" />
         <option value="$PROJECT_DIR$/src/ahgpoug/objects/Task.java" />
         <option value="$PROJECT_DIR$/src/ahgpoug/Main.java" />
-        <option value="$PROJECT_DIR$/src/ahgpoug/controllers/SingleTaskController.java" />
         <option value="$PROJECT_DIR$/src/ahgpoug/util/ProgresssForm.java" />
         <option value="$PROJECT_DIR$/src/ahgpoug/util/DbxHelper.java" />
         <option value="$PROJECT_DIR$/src/ahgpoug/util/AsyncTasks.java" />
         <option value="$PROJECT_DIR$/src/ahgpoug/util/ProgressForm.java" />
         <option value="$PROJECT_DIR$/resources/images/loading_dialog.css" />
         <option value="$PROJECT_DIR$/resources/styles/loading_dialog.css" />
+        <option value="$PROJECT_DIR$/src/ahgpoug/util/MySQLhelper.java" />
+        <option value="$PROJECT_DIR$/src/ahgpoug/util/MySQLtasks.java" />
+        <option value="$PROJECT_DIR$/src/ahgpoug/controllers/SingleTaskController.java" />
+        <option value="$PROJECT_DIR$/src/ahgpoug/mySql/MySQLhelper.java" />
+        <option value="$PROJECT_DIR$/src/ahgpoug/mySql/MySQLtasks.java" />
+        <option value="$PROJECT_DIR$/src/ahgpoug/dbx/DbxHelper.java" />
+        <option value="$PROJECT_DIR$/src/ahgpoug/dbx/DbxTasks.java" />
         <option value="$PROJECT_DIR$/src/ahgpoug/controllers/TasksTableController.java" />
         <option value="$PROJECT_DIR$/src/ahgpoug/views/MainLayout.fxml" />
-        <option value="$PROJECT_DIR$/src/ahgpoug/util/MySQLhelper.java" />
+        <option value="$PROJECT_DIR$/src/ahgpoug/views/EditTaskLayout.fxml" />
       </list>
     </option>
   </component>
@@ -338,6 +300,50 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="util" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="qrReader_desktop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="qrReader_desktop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ahgpoug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mySql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="qrReader_desktop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="qrReader_desktop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ahgpoug" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dbx" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -865,36 +871,37 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31062000" />
+    <option name="totallyTimeSpent" value="34925000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924962" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2540453" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1447167" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296875" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18632813" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39969373" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924962" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1447167" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296875" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18632813" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924962" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39969373" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -905,7 +912,6 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924962" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -960,41 +966,15 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/ahgpoug/controllers/TasksTableController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3675">
-          <caret line="147" column="18" lean-forward="false" selection-start-line="147" selection-start-column="12" selection-end-line="147" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4465#4653#0" expanded="true" />
-            <element signature="e#4652#4653#0" expanded="true" />
-            <element signature="e#5313#5493#0" expanded="true" />
-            <element signature="e#5492#5493#0" expanded="true" />
-            <element signature="e#5896#6079#0" expanded="true" />
-            <element signature="e#6078#6079#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ahgpoug/objects/Task.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="12" column="68" lean-forward="false" selection-start-line="12" selection-start-column="62" selection-end-line="12" selection-end-column="68" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ahgpoug/controllers/SingleTaskController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3500">
           <caret line="140" column="44" lean-forward="true" selection-start-line="140" selection-start-column="44" selection-end-line="140" selection-end-column="44" />
           <folding>
-            <element signature="e#2370#2371#0" expanded="false" />
-            <element signature="e#2402#2403#0" expanded="false" />
-            <element signature="e#2983#2984#0" expanded="false" />
-            <element signature="e#3018#3019#0" expanded="false" />
-            <element signature="e#3063#3064#0" expanded="false" />
-            <element signature="e#3101#3102#0" expanded="false" />
+            <element signature="e#2239#2240#0" expanded="false" />
+            <element signature="e#2271#2272#0" expanded="false" />
+            <element signature="e#3273#3274#0" expanded="false" />
+            <element signature="e#3308#3309#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1004,12 +984,10 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#2370#2371#0" expanded="false" />
-            <element signature="e#2402#2403#0" expanded="false" />
-            <element signature="e#2983#2984#0" expanded="false" />
-            <element signature="e#3018#3019#0" expanded="false" />
-            <element signature="e#3063#3064#0" expanded="false" />
-            <element signature="e#3101#3102#0" expanded="false" />
+            <element signature="e#2239#2240#0" expanded="false" />
+            <element signature="e#2271#2272#0" expanded="false" />
+            <element signature="e#3273#3274#0" expanded="false" />
+            <element signature="e#3308#3309#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1020,12 +998,6 @@
           <caret line="150" column="0" lean-forward="false" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4465#4653#0" expanded="true" />
-            <element signature="e#4652#4653#0" expanded="true" />
-            <element signature="e#5313#5493#0" expanded="true" />
-            <element signature="e#5492#5493#0" expanded="true" />
-            <element signature="e#5896#6079#0" expanded="true" />
-            <element signature="e#6078#6079#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1058,17 +1030,11 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4465#4653#0" expanded="true" />
-            <element signature="e#4652#4653#0" expanded="true" />
-            <element signature="e#5313#5493#0" expanded="true" />
-            <element signature="e#5492#5493#0" expanded="true" />
-            <element signature="e#5896#6079#0" expanded="true" />
-            <element signature="e#6078#6079#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ahgpoug/controllers/QRcodeFormController.java">
+    <entry file="file://$PROJECT_DIR$/src/ahgpoug/controllers/QrCodeFormController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="44" column="92" lean-forward="false" selection-start-line="44" selection-start-column="92" selection-end-line="44" selection-end-column="92" />
@@ -1100,12 +1066,10 @@
         <state relative-caret-position="918">
           <caret line="78" column="5" lean-forward="false" selection-start-line="78" selection-start-column="5" selection-end-line="78" selection-end-column="5" />
           <folding>
-            <element signature="e#2370#2371#0" expanded="false" />
-            <element signature="e#2402#2403#0" expanded="false" />
-            <element signature="e#2983#2984#0" expanded="false" />
-            <element signature="e#3018#3019#0" expanded="false" />
-            <element signature="e#3063#3064#0" expanded="false" />
-            <element signature="e#3101#3102#0" expanded="false" />
+            <element signature="e#2239#2240#0" expanded="false" />
+            <element signature="e#2271#2272#0" expanded="false" />
+            <element signature="e#3273#3274#0" expanded="false" />
+            <element signature="e#3308#3309#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1132,17 +1096,15 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ahgpoug/util/MySQLhelper.java">
+    <entry file="file://$PROJECT_DIR$/src/ahgpoug/mySql/MySqlHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="18" column="26" lean-forward="false" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ahgpoug/util/DbxHelper.java">
+    <entry file="file://$PROJECT_DIR$/src/ahgpoug/dbx/DbxHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1020">
           <caret line="76" column="44" lean-forward="false" selection-start-line="76" selection-start-column="44" selection-end-line="76" selection-end-column="44" />
@@ -1170,17 +1132,11 @@
           <caret line="86" column="0" lean-forward="false" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4465#4653#0" expanded="true" />
-            <element signature="e#4652#4653#0" expanded="true" />
-            <element signature="e#5313#5493#0" expanded="true" />
-            <element signature="e#5492#5493#0" expanded="true" />
-            <element signature="e#5896#6079#0" expanded="true" />
-            <element signature="e#6078#6079#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ahgpoug/controllers/QRcodeFormController.java">
+    <entry file="file://$PROJECT_DIR$/src/ahgpoug/controllers/QrCodeFormController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1204,12 +1160,10 @@
         <state relative-caret-position="1683">
           <caret line="123" column="49" lean-forward="false" selection-start-line="123" selection-start-column="49" selection-end-line="123" selection-end-column="49" />
           <folding>
-            <element signature="e#2370#2371#0" expanded="false" />
-            <element signature="e#2402#2403#0" expanded="false" />
-            <element signature="e#2983#2984#0" expanded="false" />
-            <element signature="e#3018#3019#0" expanded="false" />
-            <element signature="e#3063#3064#0" expanded="false" />
-            <element signature="e#3101#3102#0" expanded="false" />
+            <element signature="e#2239#2240#0" expanded="false" />
+            <element signature="e#2271#2272#0" expanded="false" />
+            <element signature="e#3273#3274#0" expanded="false" />
+            <element signature="e#3308#3309#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1237,13 +1191,11 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ahgpoug/util/MySQLhelper.java">
+    <entry file="file://$PROJECT_DIR$/src/ahgpoug/mySql/MySqlHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1853">
           <caret line="121" column="0" lean-forward="false" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1283,17 +1235,6 @@
     <entry file="file://$PROJECT_DIR$/src/ahgpoug/util/DateHelper.java" />
     <entry file="file://$PROJECT_DIR$/src/ahgpoug/util/MaskField.java" />
     <entry file="file://$PROJECT_DIR$/src/ahgpoug/views/PDFselectorLayout.fxml" />
-    <entry file="file://$PROJECT_DIR$/src/ahgpoug/views/QRcodeLayout.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="269" lean-forward="false" selection-start-line="6" selection-start-column="269" selection-end-line="6" selection-end-column="269" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ahgpoug/objects/Task.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -1316,32 +1257,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ahgpoug/controllers/SingleTaskController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1615">
-          <caret line="119" column="131" lean-forward="false" selection-start-line="119" selection-start-column="131" selection-end-line="119" selection-end-column="131" />
-          <folding>
-            <element signature="e#2370#2371#0" expanded="false" />
-            <element signature="e#2402#2403#0" expanded="false" />
-            <element signature="e#2983#2984#0" expanded="false" />
-            <element signature="e#3018#3019#0" expanded="false" />
-            <element signature="e#3063#3064#0" expanded="false" />
-            <element signature="e#3101#3102#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ahgpoug/views/EditTaskLayout.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
+    <entry file="file://$PROJECT_DIR$/src/ahgpoug/util/AsyncTasks.java" />
+    <entry file="file://$PROJECT_DIR$/src/ahgpoug/util/ProgressForm.java" />
+    <entry file="file://$PROJECT_DIR$/resources/images/icon.png">
+      <provider selected="true" editor-type-id="images">
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/images/dropbox_icon.png" />
+    <entry file="file://$PROJECT_DIR$/resources/styles/loading_dialog.css" />
     <entry file="file://$PROJECT_DIR$/src/ahgpoug/util/ImageViewPane.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -1350,52 +1274,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ahgpoug/util/AsyncTasks.java">
+    <entry file="file://$PROJECT_DIR$/src/ahgpoug/views/QRcodeLayout.fxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ahgpoug/util/DbxHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="799">
-          <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ahgpoug/util/ProgressForm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="32" column="31" lean-forward="true" selection-start-line="32" selection-start-column="31" selection-end-line="32" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/images/icon.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/images/dropbox_icon.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/styles/loading_dialog.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="33" lean-forward="false" selection-start-line="1" selection-start-column="33" selection-end-line="1" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ahgpoug/views/MainLayout.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="830">
-          <caret line="60" column="23" lean-forward="true" selection-start-line="60" selection-start-column="23" selection-end-line="60" selection-end-column="23" />
+        <state relative-caret-position="102">
+          <caret line="6" column="105" lean-forward="true" selection-start-line="6" selection-start-column="105" selection-end-line="6" selection-end-column="105" />
           <folding />
         </state>
       </provider>
@@ -1403,34 +1285,86 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ahgpoug/controllers/TasksTableController.java">
+    <entry file="file://$PROJECT_DIR$/src/ahgpoug/controllers/QrCodeFormController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
-          <caret line="144" column="11" lean-forward="true" selection-start-line="134" selection-start-column="8" selection-end-line="144" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4465#4653#0" expanded="true" />
-            <element signature="e#4652#4653#0" expanded="true" />
-            <element signature="e#5313#5493#0" expanded="true" />
-            <element signature="e#5492#5493#0" expanded="true" />
-            <element signature="e#5896#6079#0" expanded="true" />
-            <element signature="e#6078#6079#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ahgpoug/controllers/QRcodeFormController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="44" column="92" lean-forward="false" selection-start-line="44" selection-start-column="92" selection-end-line="44" selection-end-column="92" />
+        <state relative-caret-position="300">
+          <caret line="40" column="22" lean-forward="false" selection-start-line="40" selection-start-column="22" selection-end-line="40" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ahgpoug/util/MySQLhelper.java">
+    <entry file="file://$PROJECT_DIR$/src/ahgpoug/controllers/SingleTaskController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="808">
-          <caret line="66" column="5" lean-forward="true" selection-start-line="66" selection-start-column="5" selection-end-line="66" selection-end-column="5" />
+        <state relative-caret-position="459">
+          <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ahgpoug/mySql/MySqlHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="18" column="13" lean-forward="false" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ahgpoug/mySql/MySqlTasks.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="17" lean-forward="true" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ahgpoug/dbx/DbxTasks.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" column="1" lean-forward="true" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ahgpoug/controllers/TasksTableController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="781">
+          <caret line="196" column="43" lean-forward="true" selection-start-line="196" selection-start-column="43" selection-end-line="196" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ahgpoug/views/EditTaskLayout.fxml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="714">
+          <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ahgpoug/views/MainLayout.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="703">
+          <caret line="56" column="92" lean-forward="false" selection-start-line="56" selection-start-column="92" selection-end-line="56" selection-end-column="92" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ahgpoug/dbx/DbxHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="20" column="102" lean-forward="false" selection-start-line="20" selection-start-column="102" selection-end-line="20" selection-end-column="102" />
           <folding />
         </state>
       </provider>

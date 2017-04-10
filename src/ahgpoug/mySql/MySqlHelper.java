@@ -1,4 +1,4 @@
-package ahgpoug.util;
+package ahgpoug.mySql;
 
 import ahgpoug.objects.Task;
 import javafx.collections.FXCollections;
@@ -14,9 +14,9 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static ahgpoug.util.DbxHelper.checkAllPDFs;
+import static ahgpoug.dbx.DbxHelper.checkAllPDFs;
 
-public class MySQLhelper {
+public class MySqlHelper {
     public static ObservableList<Task> getAllTasks()
     {
         try {
@@ -63,7 +63,6 @@ public class MySQLhelper {
             e.printStackTrace();
             return null;
         }
-
     }
 
     public static void addNewTask(String taskName, String groupName, String expDate)
@@ -86,8 +85,7 @@ public class MySQLhelper {
 
             HttpGet request = new HttpGet();
             request.setURI(new URI(link));
-            HttpResponse response = client.execute(request);
-            BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            client.execute(request);
         } catch (Exception e){
             e.printStackTrace();
         }

@@ -1,4 +1,4 @@
-package ahgpoug.util;
+package ahgpoug.dbx;
 
 import ahgpoug.objects.Task;
 import com.dropbox.core.DbxException;

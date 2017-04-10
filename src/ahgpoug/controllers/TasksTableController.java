@@ -2,8 +2,11 @@ package ahgpoug.controllers;
 
 import ahgpoug.Main;
 import ahgpoug.objects.Task;
-import ahgpoug.util.DbxHelper;
-import ahgpoug.util.MySQLhelper;
+import ahgpoug.dbx.DbxHelper;
+import ahgpoug.mySql.MySqlHelper;
+import ahgpoug.mySql.MySqlTasks;
+import javafx.collections.ObservableList;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,7 +18,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.controlsfx.dialog.ProgressDialog;
 
 import java.io.File;
@@ -44,7 +46,7 @@ public class TasksTableController {
 
     @FXML
     private void initialize() {
-        tasksTable.setItems(MySQLhelper.getAllTasks());
+        updateTable(-1);
 
         taskNameColumn.setCellValueFactory(cellData -> cellData.getValue().getTaskName());
         groupNameColumn.setCellValueFactory(cellData -> cellData.getValue().getGroupName());
@@ -69,11 +71,29 @@ public class TasksTableController {
         }
     }
 
+    private void updateTable(int index){
+        tasksTable.setPlaceholder(new Label("Загрузка данных..."));
+
+        MySqlTasks.GetAllTasks getAllTasks = new MySqlTasks().new GetAllTasks();
+        Thread th = new Thread(getAllTasks);
+        th.start();
+
+        getAllTasks.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, e -> {
+            ObservableList<Task> list = getAllTasks.getValue();
+            if (list.size() > 0) {
+                tasksTable.setItems(list);
+                if (index != -1)
+                    tasksTable.getSelectionModel().select(index);
+            }else
+                tasksTable.setPlaceholder(new Label("Данных нет"));
+        });
+    }
+
     @FXML
     private void handleDeleteTask() {
         int selectedIndex = tasksTable.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
-            MySQLhelper.removeTask(tasksTable.getItems().get(selectedIndex));
+            MySqlHelper.removeTask(tasksTable.getItems().get(selectedIndex));
             tasksTable.getItems().remove(selectedIndex);
         }
     }
@@ -82,7 +102,7 @@ public class TasksTableController {
     private void handleAddTask() {
         boolean okClicked = showTaskDialog(null);
         if (okClicked) {
-            tasksTable.setItems(MySQLhelper.getAllTasks());
+            updateTable(tasksTable.getSelectionModel().getSelectedIndex());
         }
     }
 
@@ -92,16 +112,15 @@ public class TasksTableController {
         if (selectedTask != null) {
             boolean okClicked = showTaskDialog(selectedTask);
             if (okClicked) {
-                tasksTable.setItems(MySQLhelper.getAllTasks());
+                updateTable(tasksTable.getSelectionModel().getSelectedIndex());
             }
         }
     }
 
     @FXML
     private void handlePDFupload() {
-        int selectedIndex = tasksTable.getSelectionModel().getSelectedIndex();
-        if (selectedIndex >= 0) {
-            Task task = tasksTable.getItems().get(selectedIndex);
+        if (tasksTable.getSelectionModel().getSelectedIndex() >= 0) {
+            Task task = tasksTable.getSelectionModel().getSelectedItem();
             FileChooser chooser = new FileChooser();
             FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
             chooser.getExtensionFilters().add(extFilter);
@@ -113,9 +132,8 @@ public class TasksTableController {
 
     @FXML
     private void handlePDFshow() {
-        int selectedIndex = tasksTable.getSelectionModel().getSelectedIndex();
-        if (selectedIndex >= 0) {
-            Task task = tasksTable.getItems().get(selectedIndex);
+        if (tasksTable.getSelectionModel().getSelectedIndex() >= 0) {
+            Task task = tasksTable.getSelectionModel().getSelectedItem();
             if (task.isHasPDF())
                 executeShowTask(task);
         }
@@ -123,12 +141,17 @@ public class TasksTableController {
 
     @FXML
     private void handlePDFremove() {
-        int selectedIndex = tasksTable.getSelectionModel().getSelectedIndex();
-        if (selectedIndex >= 0) {
-            Task task = tasksTable.getItems().get(selectedIndex);
+        if (tasksTable.getSelectionModel().getSelectedIndex() >= 0) {
+            Task task = tasksTable.getSelectionModel().getSelectedItem();
             if (task.isHasPDF())
                 executeRemoveTask(task);
         }
+    }
+
+    @FXML
+    private void handleQrShow() {
+        if (tasksTable.getSelectionModel().getSelectedIndex() >= 0)
+            showQrCodeDialog(tasksTable.getSelectionModel().getSelectedItem());
     }
 
     private void executeUploadTask(File file, Task task){
@@ -139,9 +162,7 @@ public class TasksTableController {
             }
         };
         task1.setOnSucceeded((e) -> {
-            int selectedIndex = tasksTable.getSelectionModel().getSelectedIndex();
-            tasksTable.setItems(MySQLhelper.getAllTasks());
-            tasksTable.getSelectionModel().select(selectedIndex);
+            updateTable(tasksTable.getSelectionModel().getSelectedIndex());
         });
 
         ProgressDialog progDiag = new ProgressDialog(task1);
@@ -174,14 +195,11 @@ public class TasksTableController {
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
                 DbxHelper.removeFile(task);
-
                 return null;
             }
         };
         task1.setOnSucceeded((e) -> {
-            int selectedIndex = tasksTable.getSelectionModel().getSelectedIndex();
-            tasksTable.setItems(MySQLhelper.getAllTasks());
-            tasksTable.getSelectionModel().select(selectedIndex);
+            updateTable(-1);
         });
 
         ProgressDialog progDiag = new ProgressDialog(task1);
@@ -219,6 +237,30 @@ public class TasksTableController {
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    private void showQrCodeDialog(Task task) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("views/QRcodeLayout.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("QR code");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(Main.getStage());
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+            dialogStage.getIcons().add(new Image("file:resources/images/icon.png"));
+
+            QrCodeFormController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setData(task);
+
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -32,7 +32,6 @@
         </GridPane>
         <HBox layoutX="215.0" layoutY="259.0" spacing="5.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
             <children>
-                <Button layoutX="167.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleQRshow" text="QR код" />
                 <Button layoutX="221.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleCancel" text="Отмена" />
                 <Button layoutX="221.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleOk" text="ОК" />
             </children>
