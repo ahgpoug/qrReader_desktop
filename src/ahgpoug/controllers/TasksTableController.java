@@ -53,7 +53,7 @@ public class TasksTableController {
     @FXML
     private void initialize() {
         updateTable(-1);
-        
+
         taskNameColumn.setCellValueFactory(cellData -> cellData.getValue().getTaskName());
         groupNameColumn.setCellValueFactory(cellData -> cellData.getValue().getGroupName());
         dateColumn.setCellValueFactory(cellData -> cellData.getValue().getExpDate());
@@ -87,7 +87,7 @@ public class TasksTableController {
 
         getAllTasks.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, e -> {
             ObservableList<Task> list = getAllTasks.getValue();
-            if (list.size() > 0) {
+            if (list != null && list.size() > 0) {
                 tasksTable.setItems(list);
                 if (index != -1) {
                     tasksTable.getSelectionModel().select(index);

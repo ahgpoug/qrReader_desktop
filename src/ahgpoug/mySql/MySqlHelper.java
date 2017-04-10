@@ -57,7 +57,6 @@ public class MySqlHelper {
                 }
             }
 
-
             return checkAllPDFs(tasks);
         } catch (Exception e) {
             e.printStackTrace();
