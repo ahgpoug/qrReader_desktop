@@ -107,8 +107,8 @@ public class SingleTaskController {
 
         getAllTasks.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, e -> {
             ObservableList<Task> list = getAllTasks.getValue();
-            if (isInputValid() && correctFields(list)) {
-                if (task == null) {
+            if (task == null) {
+                if (isInputValid() && correctFields(list)) {
                     MySqlTasks.AddNewTask addNewTask = new MySqlTasks().new AddNewTask(taskNameField.getText(), groupNameField.getText(), dateField.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
                     Thread th1 = new Thread(addNewTask);
 
@@ -126,7 +126,9 @@ public class SingleTaskController {
                     progDiag.initModality(Modality.WINDOW_MODAL);
 
                     th1.start();
-                } else {
+                }
+            } else {
+                if (isInputValid()) {
                     MySqlHelper.editExistingTask(task, taskNameField.getText(), groupNameField.getText(), dateField.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
                     okClicked = true;
                     dialogStage.close();
