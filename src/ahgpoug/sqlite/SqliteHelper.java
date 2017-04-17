@@ -4,16 +4,8 @@ import ahgpoug.dbx.DbxHelper;
 import ahgpoug.objects.Task;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.sqlite.SQLiteException;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.net.URI;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -97,7 +89,7 @@ public class SqliteHelper {
             ArrayList<String> list = new ArrayList<>();
 
             Statement statement = getConnection();
-            ResultSet rs = statement.executeQuery("SELECT 'id' FROM assoc");
+            ResultSet rs = statement.executeQuery("SELECT * FROM assoc");
             while(rs.next())
                 list.add(rs.getString("id"));
             return list;

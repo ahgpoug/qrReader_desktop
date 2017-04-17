@@ -4,8 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-
-<AnchorPane prefHeight="137.0" prefWidth="544.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ahgpoug.controllers.DbxTokenController">
+<AnchorPane minHeight="137.0" minWidth="544.0" maxHeight="137.0" maxWidth="544.0" prefHeight="137.0" prefWidth="544.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ahgpoug.controllers.DbxTokenController">
    <children>
       <TextField fx:id="dbxTokenField" layoutX="19.0" layoutY="36.0" prefHeight="39.0" prefWidth="506.0" />
       <Button layoutX="448.0" layoutY="84.0" mnemonicParsing="false" onAction="#handleOk" prefHeight="39.0" prefWidth="76.0" text="OK" />

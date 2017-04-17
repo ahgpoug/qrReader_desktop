@@ -1,8 +1,8 @@
 package ahgpoug.controllers;
 
 import ahgpoug.Main;
-import ahgpoug.objects.Task;
 import ahgpoug.dbx.DbxHelper;
+import ahgpoug.objects.Task;
 import ahgpoug.sqlite.SqliteHelper;
 import ahgpoug.sqlite.SqliteTasks;
 import ahgpoug.util.Crypto;
@@ -54,6 +54,8 @@ public class TasksTableController {
     @FXML
     private GridPane infoPane;
 
+    private boolean isValidToken = true;
+
     @FXML
     private void initialize() {
         checkToken();
@@ -85,29 +87,45 @@ public class TasksTableController {
 
     private void updateTable(int index){
         tasksTable.setPlaceholder(new Label("Загрузка данных..."));
+        if (!DbxHelper.Token.checkToken(Globals.dbxToken)) {
+            tasksTable.setItems(null);
+            tasksTable.setPlaceholder(new Label("Не удалось получить данные.\nВозможно, введен неправильный токен\nили отсутствует подключение к интернету"));
+            isValidToken = false;
+        } else {
+            isValidToken = true;
 
-        SqliteTasks.GetAllTasks getAllTasks = new SqliteTasks().new GetAllTasks();
-        Thread th = new Thread(getAllTasks);
-        th.start();
+            SqliteTasks.GetAllTasks getAllTasks = new SqliteTasks().new GetAllTasks();
+            Thread th = new Thread(getAllTasks);
+            th.start();
 
-        getAllTasks.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, e -> {
-            ObservableList<Task> list = getAllTasks.getValue();
-            if (list != null && list.size() > 0) {
-                tasksTable.setItems(list);
-                if (index != -1) {
-                    tasksTable.getSelectionModel().select(index);
-                    infoPane.setVisible(true);
-                    infoLabel.setVisible(true);
+            getAllTasks.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, e -> {
+                ObservableList<Task> list = getAllTasks.getValue();
+                if (list != null && list.size() > 0) {
+                    tasksTable.setItems(list);
+                    if (index != -1) {
+                        tasksTable.getSelectionModel().select(index);
+                        infoPane.setVisible(true);
+                        infoLabel.setVisible(true);
+                    } else {
+                        infoPane.setVisible(false);
+                        infoLabel.setVisible(false);
+                    }
                 } else {
+                    if (list == null)
+                        tasksTable.setPlaceholder(new Label("Не удалось получить данные.\nВозможно, введен неправильный токен\nили отсутствует подключение к интернету"));
+                    else
+                        tasksTable.setPlaceholder(new Label("Данных нет"));
+
                     infoPane.setVisible(false);
                     infoLabel.setVisible(false);
                 }
-            } else {
-                tasksTable.setPlaceholder(new Label("Данных нет"));
-                infoPane.setVisible(false);
-                infoLabel.setVisible(false);
-            }
-        });
+            });
+
+            getAllTasks.addEventHandler(WorkerStateEvent.WORKER_STATE_FAILED, e -> {
+                System.out.println("Failed");
+                tasksTable.setPlaceholder(new Label("Не удалось получить данные.\nВозможно, введен неправильный токен\nили отсутствует подключение к интернету"));
+            });
+        }
     }
 
     private void updateDb(){
@@ -166,9 +184,11 @@ public class TasksTableController {
 
     @FXML
     private void handleAddTask() {
-        boolean okClicked = showTaskDialog(null);
-        if (okClicked) {
-            updateTable(tasksTable.getSelectionModel().getSelectedIndex());
+        if (isValidToken) {
+            boolean okClicked = showTaskDialog(null);
+            if (okClicked) {
+                updateTable(tasksTable.getSelectionModel().getSelectedIndex());
+            }
         }
     }
 
@@ -231,7 +251,7 @@ public class TasksTableController {
     private void handleChangeToken() {
         boolean okClicked = showDbxTokenDialog();
         if (okClicked) {
-            updateTable(tasksTable.getSelectionModel().getSelectedIndex());
+            updateDb();
         }
     }
 

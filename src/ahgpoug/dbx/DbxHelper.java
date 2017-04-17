@@ -21,6 +21,10 @@ public class DbxHelper {
     public static class PDF{
         public static ObservableList<Task> checkAllPDFs(ObservableList<Task> list){
             ArrayList<String> PDFs = getAllPDFs();
+
+            if (PDFs == null)
+                return null;
+
             for (Task task : list){
                 if (PDFs.contains(task.getId().getValue()))
                     task.setHasPDF(true);
@@ -48,7 +52,8 @@ public class DbxHelper {
                     PDFs.add(metadata.getName().replace(".pdf", ""));
                 }
             } catch (Exception e){
-                e.printStackTrace();
+                System.out.println("Invalid token");
+                PDFs = null;
             }
 
             return PDFs;
@@ -178,7 +183,7 @@ public class DbxHelper {
                 OutputStream out = new FileOutputStream(file);
                 client.files().download("/sqlite.db").download(out);
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("Invalid token");
             }
         }
 
@@ -196,6 +201,20 @@ public class DbxHelper {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static class Token{
+        public static boolean checkToken(String token){
+            boolean result = true;
+            try {
+                DbxClientV2 client = new DbxClientV2(config, token);
+                client.files().listFolder("").getEntries();
+            } catch (Exception e){
+                System.out.println("Invalid token");
+                result = false;
+            }
+            return result;
         }
     }
 

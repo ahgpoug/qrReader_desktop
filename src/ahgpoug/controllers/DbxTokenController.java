@@ -5,10 +5,8 @@ import ahgpoug.util.Globals;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.apache.commons.codec.binary.Base64;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -64,6 +62,9 @@ public class DbxTokenController {
 
         task1.setOnSucceeded((e) -> {
             Globals.dbxToken = dbxTokenField.getText().trim();
+            File file = new File("sqlite.db");
+            if (file.exists())
+                file.delete();
             okClicked = true;
             dialogStage.close();
         });
