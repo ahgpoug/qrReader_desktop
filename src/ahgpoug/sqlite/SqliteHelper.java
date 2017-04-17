@@ -76,7 +76,7 @@ public class SqliteHelper {
         try {
             Statement statement = getConnection();
             String query = String.format("UPDATE assoc SET taskName = '%s', groupName = '%s', expDate = '%s' WHERE id = '%s'",
-                    task.getId().getValue(), taskName, groupName, expDate);
+                    taskName, groupName, expDate, task.getId().getValue());
             statement.executeUpdate(query);
             DbxHelper.Files.uploadDb();
         } catch (Exception e){
