@@ -4,6 +4,7 @@ import ahgpoug.objects.Task;
 import ahgpoug.util.Globals;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.ListFolderErrorException;
 import com.dropbox.core.v2.files.ListFolderResult;
 import com.dropbox.core.v2.files.Metadata;
 import com.dropbox.core.v2.sharing.SharedLinkMetadata;
@@ -21,9 +22,6 @@ public class DbxHelper {
     public static class PDF{
         public static ObservableList<Task> checkAllPDFs(ObservableList<Task> list){
             ArrayList<String> PDFs = getAllPDFs();
-
-            if (PDFs == null)
-                return null;
 
             for (Task task : list){
                 if (PDFs.contains(task.getId().getValue()))
@@ -51,9 +49,14 @@ public class DbxHelper {
                 for (Metadata metadata : result.getEntries()) {
                     PDFs.add(metadata.getName().replace(".pdf", ""));
                 }
+            } catch (ListFolderErrorException e){
+                try {
+                    client.files().createFolder("/Задания");
+                } catch (Exception ee){
+                    ee.printStackTrace();
+                }
             } catch (Exception e){
-                System.out.println("Invalid token");
-                PDFs = null;
+                e.printStackTrace();
             }
 
             return PDFs;

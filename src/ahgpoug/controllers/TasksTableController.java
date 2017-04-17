@@ -111,10 +111,7 @@ public class TasksTableController {
                         infoLabel.setVisible(false);
                     }
                 } else {
-                    if (list == null)
-                        tasksTable.setPlaceholder(new Label("Не удалось получить данные.\nВозможно, введен неправильный токен\nили отсутствует подключение к интернету"));
-                    else
-                        tasksTable.setPlaceholder(new Label("Данных нет"));
+                    tasksTable.setPlaceholder(new Label("Данных нет"));
 
                     infoPane.setVisible(false);
                     infoLabel.setVisible(false);
