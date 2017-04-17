@@ -21,6 +21,10 @@ import org.controlsfx.dialog.ProgressDialog;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
 public class TasksTableController {
@@ -51,6 +55,17 @@ public class TasksTableController {
 
     @FXML
     private void initialize() {
+        File f = new File("dbx");
+        if(f.exists() && !f.isDirectory()) {
+            try {
+                String content = readFile("dbx", Charset.forName("UTF-8"));
+            } catch (Exception e){
+                e.printStackTrace();
+                showDbxTokenDialog();
+            }
+        } else {
+            showDbxTokenDialog();
+        }
         updateTable(-1);
 
         taskNameColumn.setCellValueFactory(cellData -> cellData.getValue().getTaskName());
@@ -286,6 +301,11 @@ public class TasksTableController {
         new Thread(task1).start();
     }
 
+    static String readFile(String path, Charset encoding) throws IOException {
+        byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return new String(encoded, encoding);
+    }
+
     private boolean showTaskDialog(Task task) {
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -319,7 +339,7 @@ public class TasksTableController {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("views/QRcodeLayout.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
+            AnchorPane page = loader.load();
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle("QR code");
@@ -332,6 +352,28 @@ public class TasksTableController {
             QrCodeFormController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setData(task);
+
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showDbxTokenDialog() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("views/DbxTokenLayout.fxml"));
+            AnchorPane page = loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(Main.getStage());
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+            dialogStage.getIcons().add(new Image("file:resources/images/icon.png"));
+
+            DbxTokenController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
 
             dialogStage.showAndWait();
         } catch (IOException e) {
