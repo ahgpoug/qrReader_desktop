@@ -1,7 +1,7 @@
 package ahgpoug.dbx;
 
 import ahgpoug.objects.Task;
-import com.dropbox.core.DbxException;
+import ahgpoug.util.Globals;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.ListFolderResult;
@@ -10,15 +10,13 @@ import com.dropbox.core.v2.sharing.SharedLinkMetadata;
 import javafx.collections.ObservableList;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DbxHelper {
-    private static String ACCESS_TOKEN = "Gtb6zMf7DEIAAAAAAAABGVMypi2U4fkUrY9AZlwbatBtfxILfxX-IXMNaoSQmGkP";
+    private static DbxRequestConfig config = new DbxRequestConfig("dropbox/desktopClient1");
 
     public static class PDF{
         public static ObservableList<Task> checkAllPDFs(ObservableList<Task> list){
@@ -33,8 +31,7 @@ public class DbxHelper {
         }
 
         private static ArrayList<String> getAllPDFs(){
-            DbxRequestConfig config = new DbxRequestConfig("dropbox/desktopClient1");
-            DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
+            DbxClientV2 client = new DbxClientV2(config, Globals.dbxToken);
             ArrayList<String> PDFs = new ArrayList<>();
 
             try {
@@ -60,8 +57,7 @@ public class DbxHelper {
 
     public static class Folders{
         public static void createFolders(String groupName, String taskName){
-            DbxRequestConfig config = new DbxRequestConfig("dropbox/desktopClient1");
-            DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
+            DbxClientV2 client = new DbxClientV2(config, Globals.dbxToken);
 
             try {
                 String path = String.format("/%s/%s", groupName, taskName);
@@ -72,8 +68,7 @@ public class DbxHelper {
         }
 
         public static void removeFolder(Task task){
-            DbxRequestConfig config = new DbxRequestConfig("dropbox/desktopClient1");
-            DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
+            DbxClientV2 client = new DbxClientV2(config, Globals.dbxToken);
 
             try {
                 List<Metadata> result = client.files().listFolder(String.format("/%s/", task.getGroupName().getValue())).getEntries();
@@ -88,14 +83,13 @@ public class DbxHelper {
                 if (result.size() == 0)
                     client.files().delete(String.format("/%s", task.getGroupName().getValue()));
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("Folder doesn't exist");
             }
         }
 
         public static void showFolder(Task task){
-            DbxRequestConfig config = new DbxRequestConfig("dropbox/desktopClient1");
-            DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
-            String url = "http://ahgpoug.xyz/error";
+            DbxClientV2 client = new DbxClientV2(config, Globals.dbxToken);
+            String url = "https://www.dropbox.com/404";
 
             try {
                 String path = String.format("/%s/%s", task.getGroupName().getValue(), task.getTaskName().getValue());
@@ -115,22 +109,20 @@ public class DbxHelper {
     }
 
     public static class Files{
-        public static void uploadFile(File file, Task task){
-            DbxRequestConfig config = new DbxRequestConfig("dropbox/desktopClient1");
-            DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
+        public static void uploadTaskPDF(File file, Task task){
+            DbxClientV2 client = new DbxClientV2(config, Globals.dbxToken);
 
             try (InputStream in = new FileInputStream(file)) {
                 String path = String.format("/Задания/%s.pdf", task.getId().getValue());
-                removeFile(task);
+                removeTaskPDF(task);
                 client.files().uploadBuilder(path).uploadAndFinish(in);
             } catch (Exception e){
                 e.printStackTrace();
             }
         }
 
-        public static void removeFile(Task task){
-            DbxRequestConfig config = new DbxRequestConfig("dropbox/desktopClient1");
-            DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
+        public static void removeTaskPDF(Task task){
+            DbxClientV2 client = new DbxClientV2(config, Globals.dbxToken);
 
             try {
                 List<Metadata> result = client.files().listFolder("/Задания/").getEntries();
@@ -145,10 +137,9 @@ public class DbxHelper {
             }
         }
 
-        public static void showFile(Task task){
-            DbxRequestConfig config = new DbxRequestConfig("dropbox/desktopClient1");
-            DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
-            String url = "http://ahgpoug.xyz/error";
+        public static void showTaskPDF(Task task){
+            DbxClientV2 client = new DbxClientV2(config, Globals.dbxToken);
+            String url = "https://www.dropbox.com/404";
 
             try {
                 String path = String.format("/Задания/%s.pdf", task.getId().getValue());
@@ -164,6 +155,47 @@ public class DbxHelper {
             }
 
             openWebpage(URI.create(url));
+        }
+
+        public static void uploadDb(){
+            DbxClientV2 client = new DbxClientV2(config, Globals.dbxToken);
+            File file = new File("sqlite.db");
+
+            try (InputStream in = new FileInputStream(file)) {
+                removeDb();
+                client.files().uploadBuilder("/sqlite.db").uploadAndFinish(in);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        public static void downloadDb(){
+            DbxClientV2 client = new DbxClientV2(config, Globals.dbxToken);
+
+            File file = new File("sqlite.db");
+
+            try {
+                OutputStream out = new FileOutputStream(file);
+                client.files().download("/sqlite.db").download(out);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        private static void removeDb(){
+            DbxClientV2 client = new DbxClientV2(config, Globals.dbxToken);
+
+            try {
+                List<Metadata> result = client.files().listFolder("").getEntries();
+                for (Metadata entry : result) {
+                    if (entry.getName().equals("sqlite.db")){
+                        client.files().delete(entry.getPathDisplay());
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

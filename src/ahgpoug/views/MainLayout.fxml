@@ -94,6 +94,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#handlePDFupload" text="Загрузить текст задания" />
                   <MenuItem mnemonicParsing="false" onAction="#handlePDFshow" text="Просмотреть текст задания" />
                   <MenuItem mnemonicParsing="false" onAction="#handlePDFremove" text="Удалить текст задания" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleChangeToken" text="Изменить токен" />
                 </items>
               </SplitMenuButton>
               <Button layoutX="167.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleEditTask" text="Изменить" />

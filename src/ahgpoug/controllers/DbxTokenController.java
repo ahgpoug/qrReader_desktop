@@ -1,32 +1,17 @@
 package ahgpoug.controllers;
 
-import ahgpoug.Main;
-import ahgpoug.objects.Task;
+import ahgpoug.util.Crypto;
 import ahgpoug.util.Globals;
-import ahgpoug.util.ImageViewPane;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.controlsfx.dialog.ProgressDialog;
+import org.apache.commons.codec.binary.Base64;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Hashtable;
+
 
 public class DbxTokenController {
     @FXML
@@ -47,11 +32,20 @@ public class DbxTokenController {
     @FXML
     private void handleOk() {
         if (dbxTokenField.getText() != null && dbxTokenField.getText().length() > 0)
-            encryptToken(dbxTokenField.getText());
+            encryptToken(dbxTokenField.getText().trim());
+    }
+
+    public boolean isOkClicked() {
+        return okClicked;
     }
 
     private void encryptToken(String token){
-        writeToFile(DigestUtils.sha1Hex("WhenTheLocustNests"));
+        try {
+            writeToFile(Crypto.encrypt(token));
+        } catch (Exception e){
+            e.printStackTrace();
+            dialogStage.close();
+        }
     }
 
     private void writeToFile(String line){
@@ -69,16 +63,10 @@ public class DbxTokenController {
         };
 
         task1.setOnSucceeded((e) -> {
-            Globals.dbxToken = line;
+            Globals.dbxToken = dbxTokenField.getText().trim();
             okClicked = true;
             dialogStage.close();
         });
-
-        ProgressDialog progDiag = new ProgressDialog(task1);
-        progDiag.setTitle("Загрузка");
-        progDiag.initOwner(Main.getStage());
-        progDiag.setHeaderText("Загрузка...");
-        progDiag.initModality(Modality.WINDOW_MODAL);
 
         new Thread(task1).start();
     }

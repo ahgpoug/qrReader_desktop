@@ -3,8 +3,10 @@ package ahgpoug.controllers;
 import ahgpoug.Main;
 import ahgpoug.objects.Task;
 import ahgpoug.dbx.DbxHelper;
-import ahgpoug.mySql.MySqlHelper;
-import ahgpoug.mySql.MySqlTasks;
+import ahgpoug.sqlite.SqliteHelper;
+import ahgpoug.sqlite.SqliteTasks;
+import ahgpoug.util.Crypto;
+import ahgpoug.util.Globals;
 import javafx.collections.ObservableList;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
@@ -24,7 +26,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Optional;
 
 public class TasksTableController {
@@ -55,18 +56,8 @@ public class TasksTableController {
 
     @FXML
     private void initialize() {
-        File f = new File("dbx");
-        if(f.exists() && !f.isDirectory()) {
-            try {
-                String content = readFile("dbx", Charset.forName("UTF-8"));
-            } catch (Exception e){
-                e.printStackTrace();
-                showDbxTokenDialog();
-            }
-        } else {
-            showDbxTokenDialog();
-        }
-        updateTable(-1);
+        checkToken();
+        updateDb();
 
         taskNameColumn.setCellValueFactory(cellData -> cellData.getValue().getTaskName());
         groupNameColumn.setCellValueFactory(cellData -> cellData.getValue().getGroupName());
@@ -95,7 +86,7 @@ public class TasksTableController {
     private void updateTable(int index){
         tasksTable.setPlaceholder(new Label("Загрузка данных..."));
 
-        MySqlTasks.GetAllTasks getAllTasks = new MySqlTasks().new GetAllTasks();
+        SqliteTasks.GetAllTasks getAllTasks = new SqliteTasks().new GetAllTasks();
         Thread th = new Thread(getAllTasks);
         th.start();
 
@@ -117,7 +108,41 @@ public class TasksTableController {
                 infoLabel.setVisible(false);
             }
         });
+    }
 
+    private void updateDb(){
+        javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
+            @Override public Boolean call() {
+                DbxHelper.Files.downloadDb();
+                return null;
+            }
+        };
+
+        task1.setOnSucceeded((e) -> {
+            updateTable(-1);
+        });
+
+        tasksTable.setPlaceholder(new Label("Загрузка данных..."));
+
+        new Thread(task1).start();
+    }
+
+    private void checkToken(){
+        File f = new File("dbx");
+        if(f.exists() && !f.isDirectory()) {
+            try {
+                String token = readFile("dbx", Charset.forName("UTF-8"));
+                if (token != null && !token.equals(""))
+                    Globals.dbxToken = Crypto.decrypt(token);
+                else
+                    showDbxTokenDialog();
+            } catch (Exception e){
+                e.printStackTrace();
+                showDbxTokenDialog();
+            }
+        } else {
+            showDbxTokenDialog();
+        }
     }
 
     @FXML
@@ -202,12 +227,20 @@ public class TasksTableController {
             showQrCodeDialog(tasksTable.getSelectionModel().getSelectedItem());
     }
 
+    @FXML
+    private void handleChangeToken() {
+        boolean okClicked = showDbxTokenDialog();
+        if (okClicked) {
+            updateTable(tasksTable.getSelectionModel().getSelectedIndex());
+        }
+    }
+
     private void executeDeleteTask(Task task){
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
-                DbxHelper.Files.removeFile(task);
+                DbxHelper.Files.removeTaskPDF(task);
                 DbxHelper.Folders.removeFolder(task);
-                MySqlHelper.removeTask(task);
+                SqliteHelper.removeTask(task);
                 return null;
             }
         };
@@ -229,7 +262,7 @@ public class TasksTableController {
     private void executeUploadFile(File file, Task task){
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
-                DbxHelper.Files.uploadFile(file, task);
+                DbxHelper.Files.uploadTaskPDF(file, task);
                 return null;
             }
         };
@@ -250,7 +283,7 @@ public class TasksTableController {
     private void executeShowFile(Task task){
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
-                DbxHelper.Files.showFile(task);
+                DbxHelper.Files.showTaskPDF(task);
                 return null;
             }
         };
@@ -284,7 +317,7 @@ public class TasksTableController {
     private void executeRemoveFile(Task task){
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
-                DbxHelper.Files.removeFile(task);
+                DbxHelper.Files.removeTaskPDF(task);
                 return null;
             }
         };
@@ -301,7 +334,7 @@ public class TasksTableController {
         new Thread(task1).start();
     }
 
-    static String readFile(String path, Charset encoding) throws IOException {
+    private String readFile(String path, Charset encoding) throws IOException {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded, encoding);
     }
@@ -359,7 +392,7 @@ public class TasksTableController {
         }
     }
 
-    private void showDbxTokenDialog() {
+    private boolean showDbxTokenDialog() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("views/DbxTokenLayout.fxml"));
@@ -376,8 +409,11 @@ public class TasksTableController {
             controller.setDialogStage(dialogStage);
 
             dialogStage.showAndWait();
+
+            return controller.isOkClicked();
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 }
