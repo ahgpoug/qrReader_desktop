@@ -7,6 +7,7 @@ import ahgpoug.sqlite.SqliteHelper;
 import ahgpoug.sqlite.SqliteTasks;
 import ahgpoug.util.Crypto;
 import ahgpoug.util.Globals;
+import com.sun.jna.platform.win32.Advapi32Util;
 import javafx.collections.ObservableList;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
@@ -27,6 +28,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
+
+import static com.sun.jna.platform.win32.WinReg.HKEY_CURRENT_USER;
 
 public class TasksTableController {
     @FXML
@@ -137,26 +140,22 @@ public class TasksTableController {
             updateTable(-1);
         });
 
+        tasksTable.setItems(null);
         tasksTable.setPlaceholder(new Label("Загрузка данных..."));
 
         new Thread(task1).start();
     }
 
     private void checkToken(){
-        File f = new File("dbx");
-        if(f.exists() && !f.isDirectory()) {
-            try {
-                String token = readFile("dbx", Charset.forName("UTF-8"));
-                if (token != null && !token.equals(""))
-                    Globals.dbxToken = Crypto.decrypt(token);
-                else
-                    showDbxTokenDialog();
-            } catch (Exception e){
-                e.printStackTrace();
+        try {
+            if (Advapi32Util.registryKeyExists(HKEY_CURRENT_USER, Globals.registryPath) && Advapi32Util.registryValueExists(HKEY_CURRENT_USER, Globals.registryPath, "token")) {
+                String token = Advapi32Util.registryGetStringValue(HKEY_CURRENT_USER, Globals.registryPath, "token");
+                Globals.dbxToken = Crypto.decrypt(token);
+            } else {
                 showDbxTokenDialog();
             }
-        } else {
-            showDbxTokenDialog();
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -349,11 +348,6 @@ public class TasksTableController {
         progDiag.initModality(Modality.WINDOW_MODAL);
 
         new Thread(task1).start();
-    }
-
-    private String readFile(String path, Charset encoding) throws IOException {
-        byte[] encoded = Files.readAllBytes(Paths.get(path));
-        return new String(encoded, encoding);
     }
 
     private boolean showTaskDialog(Task task) {
