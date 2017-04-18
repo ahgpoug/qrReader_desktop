@@ -8,8 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 import static com.sun.jna.platform.win32.WinReg.HKEY_CURRENT_USER;
 

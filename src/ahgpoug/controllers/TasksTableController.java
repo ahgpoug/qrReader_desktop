@@ -24,9 +24,6 @@ import org.controlsfx.dialog.ProgressDialog;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Optional;
 
 import static com.sun.jna.platform.win32.WinReg.HKEY_CURRENT_USER;
