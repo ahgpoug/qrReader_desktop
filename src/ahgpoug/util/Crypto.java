@@ -7,7 +7,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class Crypto {
-    private static final String key = "WhenLocustNests1";
+    private static final String key = "PhilipKindredDic";
     private static final String vector = "AbsolutelyRandom";
 
     public static String encrypt(String line) throws Exception{
