@@ -1,11 +1,9 @@
 package ahgpoug.controllers;
 
 import ahgpoug.Main;
-import ahgpoug.dbx.DbxHelper;
 import ahgpoug.objects.Task;
-import ahgpoug.mySql.MySqlHelper;
-import ahgpoug.mySql.MySqlTasks;
-import javafx.collections.FXCollections;
+import ahgpoug.sqlite.SqliteHelper;
+import ahgpoug.sqlite.SqliteTasks;
 import javafx.collections.ObservableList;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
@@ -20,7 +18,6 @@ import org.controlsfx.dialog.ProgressDialog;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class SingleTaskController {
     @FXML
@@ -102,14 +99,14 @@ public class SingleTaskController {
     }
 
     private void checkData(){
-        MySqlTasks.GetAllTasks getAllTasks = new MySqlTasks().new GetAllTasks();
+        SqliteTasks.GetAllTasks getAllTasks = new SqliteTasks().new GetAllTasks();
         Thread th = new Thread(getAllTasks);
 
         getAllTasks.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, e -> {
             ObservableList<Task> list = getAllTasks.getValue();
             if (task == null) {
                 if (isInputValid() && correctFields(list)) {
-                    MySqlTasks.AddNewTask addNewTask = new MySqlTasks().new AddNewTask(taskNameField.getText(), groupNameField.getText(), dateField.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                    SqliteTasks.AddNewTask addNewTask = new SqliteTasks().new AddNewTask(taskNameField.getText(), groupNameField.getText(), dateField.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
                     Thread th1 = new Thread(addNewTask);
 
                     addNewTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, ee -> {
@@ -129,7 +126,7 @@ public class SingleTaskController {
                 }
             } else {
                 if (isInputValid()) {
-                    MySqlHelper.editExistingTask(task, taskNameField.getText(), groupNameField.getText(), dateField.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                    SqliteHelper.editExistingTask(task, taskNameField.getText(), groupNameField.getText(), dateField.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
                     okClicked = true;
                     dialogStage.close();
                 }

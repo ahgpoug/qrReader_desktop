@@ -1,16 +1,16 @@
-package ahgpoug.mySql;
+package ahgpoug.sqlite;
 
 import ahgpoug.dbx.DbxHelper;
 import ahgpoug.objects.Task;
 import javafx.collections.ObservableList;
 
-public final class MySqlTasks {
+public final class SqliteTasks {
     public class GetAllTasks extends javafx.concurrent.Task<ObservableList<Task>>
     {
         @Override
         protected ObservableList<Task> call() throws Exception
         {
-            return MySqlHelper.getAllTasks();
+            return SqliteHelper.readAllTasks();
         }
     }
 
@@ -29,7 +29,7 @@ public final class MySqlTasks {
         @Override
         protected Boolean call() throws Exception
         {
-            MySqlHelper.addNewTask(taskName, groupName, expDate);
+            SqliteHelper.addNewTask(taskName, groupName, expDate);
             DbxHelper.Folders.createFolders(groupName, taskName);
             return true;
         }

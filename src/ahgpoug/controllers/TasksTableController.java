@@ -1,10 +1,13 @@
 package ahgpoug.controllers;
 
 import ahgpoug.Main;
-import ahgpoug.objects.Task;
 import ahgpoug.dbx.DbxHelper;
-import ahgpoug.mySql.MySqlHelper;
-import ahgpoug.mySql.MySqlTasks;
+import ahgpoug.objects.Task;
+import ahgpoug.sqlite.SqliteHelper;
+import ahgpoug.sqlite.SqliteTasks;
+import ahgpoug.util.Crypto;
+import ahgpoug.util.Globals;
+import com.sun.jna.platform.win32.Advapi32Util;
 import javafx.collections.ObservableList;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
@@ -22,6 +25,8 @@ import org.controlsfx.dialog.ProgressDialog;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
+
+import static com.sun.jna.platform.win32.WinReg.HKEY_CURRENT_USER;
 
 public class TasksTableController {
     @FXML
@@ -49,9 +54,12 @@ public class TasksTableController {
     @FXML
     private GridPane infoPane;
 
+    private boolean isValidToken = true;
+
     @FXML
     private void initialize() {
-        updateTable(-1);
+        checkToken();
+        updateDb();
 
         taskNameColumn.setCellValueFactory(cellData -> cellData.getValue().getTaskName());
         groupNameColumn.setCellValueFactory(cellData -> cellData.getValue().getGroupName());
@@ -79,30 +87,73 @@ public class TasksTableController {
 
     private void updateTable(int index){
         tasksTable.setPlaceholder(new Label("Загрузка данных..."));
+        if (!DbxHelper.Token.checkToken(Globals.dbxToken)) {
+            tasksTable.setItems(null);
+            tasksTable.setPlaceholder(new Label("Не удалось получить данные.\nВозможно, введен неправильный токен\nили отсутствует подключение к интернету"));
+            isValidToken = false;
+        } else {
+            isValidToken = true;
 
-        MySqlTasks.GetAllTasks getAllTasks = new MySqlTasks().new GetAllTasks();
-        Thread th = new Thread(getAllTasks);
-        th.start();
+            SqliteTasks.GetAllTasks getAllTasks = new SqliteTasks().new GetAllTasks();
+            Thread th = new Thread(getAllTasks);
+            th.start();
 
-        getAllTasks.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, e -> {
-            ObservableList<Task> list = getAllTasks.getValue();
-            if (list != null && list.size() > 0) {
-                tasksTable.setItems(list);
-                if (index != -1) {
-                    tasksTable.getSelectionModel().select(index);
-                    infoPane.setVisible(true);
-                    infoLabel.setVisible(true);
+            getAllTasks.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, e -> {
+                ObservableList<Task> list = getAllTasks.getValue();
+                if (list != null && list.size() > 0) {
+                    tasksTable.setItems(list);
+                    if (index != -1) {
+                        tasksTable.getSelectionModel().select(index);
+                        infoPane.setVisible(true);
+                        infoLabel.setVisible(true);
+                    } else {
+                        infoPane.setVisible(false);
+                        infoLabel.setVisible(false);
+                    }
                 } else {
+                    tasksTable.setPlaceholder(new Label("Данных нет"));
+
                     infoPane.setVisible(false);
                     infoLabel.setVisible(false);
                 }
-            } else {
-                tasksTable.setPlaceholder(new Label("Данных нет"));
-                infoPane.setVisible(false);
-                infoLabel.setVisible(false);
+            });
+
+            getAllTasks.addEventHandler(WorkerStateEvent.WORKER_STATE_FAILED, e -> {
+                System.out.println("Failed");
+                tasksTable.setPlaceholder(new Label("Не удалось получить данные.\nВозможно, введен неправильный токен\nили отсутствует подключение к интернету"));
+            });
+        }
+    }
+
+    private void updateDb(){
+        javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
+            @Override public Boolean call() {
+                DbxHelper.Files.downloadDb();
+                return null;
             }
+        };
+
+        task1.setOnSucceeded((e) -> {
+            updateTable(-1);
         });
 
+        tasksTable.setItems(null);
+        tasksTable.setPlaceholder(new Label("Загрузка данных..."));
+
+        new Thread(task1).start();
+    }
+
+    private void checkToken(){
+        try {
+            if (Advapi32Util.registryKeyExists(HKEY_CURRENT_USER, Globals.registryPath) && Advapi32Util.registryValueExists(HKEY_CURRENT_USER, Globals.registryPath, "token")) {
+                String token = Advapi32Util.registryGetStringValue(HKEY_CURRENT_USER, Globals.registryPath, "token");
+                Globals.dbxToken = Crypto.decrypt(token);
+            } else {
+                showDbxTokenDialog();
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -126,9 +177,11 @@ public class TasksTableController {
 
     @FXML
     private void handleAddTask() {
-        boolean okClicked = showTaskDialog(null);
-        if (okClicked) {
-            updateTable(tasksTable.getSelectionModel().getSelectedIndex());
+        if (isValidToken) {
+            boolean okClicked = showTaskDialog(null);
+            if (okClicked) {
+                updateTable(tasksTable.getSelectionModel().getSelectedIndex());
+            }
         }
     }
 
@@ -187,12 +240,20 @@ public class TasksTableController {
             showQrCodeDialog(tasksTable.getSelectionModel().getSelectedItem());
     }
 
+    @FXML
+    private void handleChangeToken() {
+        boolean okClicked = showDbxTokenDialog();
+        if (okClicked) {
+            updateDb();
+        }
+    }
+
     private void executeDeleteTask(Task task){
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
-                DbxHelper.Files.removeFile(task);
+                DbxHelper.Files.removeTaskPDF(task);
                 DbxHelper.Folders.removeFolder(task);
-                MySqlHelper.removeTask(task);
+                SqliteHelper.removeTask(task);
                 return null;
             }
         };
@@ -214,7 +275,7 @@ public class TasksTableController {
     private void executeUploadFile(File file, Task task){
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
-                DbxHelper.Files.uploadFile(file, task);
+                DbxHelper.Files.uploadTaskPDF(file, task);
                 return null;
             }
         };
@@ -235,7 +296,7 @@ public class TasksTableController {
     private void executeShowFile(Task task){
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
-                DbxHelper.Files.showFile(task);
+                DbxHelper.Files.showTaskPDF(task);
                 return null;
             }
         };
@@ -269,7 +330,7 @@ public class TasksTableController {
     private void executeRemoveFile(Task task){
         javafx.concurrent.Task<Boolean> task1 = new javafx.concurrent.Task<Boolean>() {
             @Override public Boolean call() {
-                DbxHelper.Files.removeFile(task);
+                DbxHelper.Files.removeTaskPDF(task);
                 return null;
             }
         };
@@ -319,7 +380,7 @@ public class TasksTableController {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("views/QRcodeLayout.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
+            AnchorPane page = loader.load();
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle("QR code");
@@ -336,6 +397,31 @@ public class TasksTableController {
             dialogStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private boolean showDbxTokenDialog() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("views/DbxTokenLayout.fxml"));
+            AnchorPane page = loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(Main.getStage());
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+            dialogStage.getIcons().add(new Image("file:resources/images/icon.png"));
+
+            DbxTokenController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }

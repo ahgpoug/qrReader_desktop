@@ -1,6 +1,8 @@
 package ahgpoug.controllers;
 
 import ahgpoug.objects.Task;
+import ahgpoug.util.Crypto;
+import ahgpoug.util.Globals;
 import ahgpoug.util.ImageViewPane;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -42,7 +44,8 @@ public class QrCodeFormController {
         this.task = task;
 
         try {
-            qrCode.setImage(SwingFXUtils.toFXImage(createQRImage(task.getId().getValue(), 100), null));
+            String text = task.getId().getValue() + "...." + Crypto.encrypt(Globals.dbxToken);
+            qrCode.setImage(SwingFXUtils.toFXImage(createQRImage(text, 3000), null));
 
             ImageViewPane viewPane = new ImageViewPane(qrCode);
             VBox vbox=new VBox();
@@ -74,7 +77,6 @@ public class QrCodeFormController {
         Graphics2D graphics = (Graphics2D) image.getGraphics();
         graphics.setColor(Color.WHITE);
         graphics.fillRect(0, 0, matrixWidth, matrixWidth);
-        // Paint and save the image using the ByteMatrix
         graphics.setColor(Color.BLACK);
 
         for (int i = 0; i < matrixWidth; i++) {
